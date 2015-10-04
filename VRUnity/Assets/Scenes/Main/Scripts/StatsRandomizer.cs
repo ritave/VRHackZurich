@@ -4,6 +4,11 @@ using System.Collections;
 [RequireComponent(typeof(Renderer))]
 public class StatsRandomizer : MonoBehaviour
 {
+	private const float MIN_HEIGHT = 0.1f;
+	private const float MAX_HEIGHT = 0.6f;
+	private static readonly Color COLOR_BOTTOM = Color.cyan;
+	private static readonly Color COLOR_TOP = Color.red;
+
 	private Renderer m_renderer;
 	private float m_heightTop;
 	private float m_heightBottom;
@@ -11,8 +16,8 @@ public class StatsRandomizer : MonoBehaviour
 	private void Awake()
 	{
 		m_renderer = GetComponent<Renderer>();
-		m_heightTop = Random.Range(0.1f, 0.6f);
-		m_heightBottom = Random.Range(0.1f, 0.6f);
+		m_heightTop = Random.Range(MIN_HEIGHT, MAX_HEIGHT);
+		m_heightBottom = Random.Range(MIN_HEIGHT, MAX_HEIGHT);
 	}
 
 	private void Start()
@@ -32,7 +37,10 @@ public class StatsRandomizer : MonoBehaviour
 
 	private void SetHeight(float height)
 	{
-		m_renderer.material.color = new HSBColor(height, 1f, 0.6f).ToColor();
+		//m_renderer.material.color = new HSBColor(height, 1f, 0.6f).ToColor();
+
+		float heightPercent = (height - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT);
+		m_renderer.material.color = Color.Lerp(COLOR_BOTTOM, COLOR_TOP, heightPercent);
 
 		transform.localScale = new Vector3(
 			transform.localScale.x,
