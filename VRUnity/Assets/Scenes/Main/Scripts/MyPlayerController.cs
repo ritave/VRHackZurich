@@ -14,6 +14,9 @@ public class MyPlayerController : MonoBehaviour
 	public GameObject m_rightHand;
 	public Transform m_forwardVec;
 
+	public Transform m_dragTop;
+	public Transform m_dragBottom;
+
 	private Material m_lHandMaterial;
 	private Material m_rHandMaterial;
 
@@ -81,8 +84,8 @@ public class MyPlayerController : MonoBehaviour
 		if (m_rClosed)
 		{
 			float percent = 0.0f;
-			float lowest = m_realLifeBodyPos.y - 0.8f;
-			float highest = m_realLifeBodyPos.y;
+			float lowest = m_dragBottom.position.y;
+			float highest = m_dragTop.position.y;
 			if (m_realLifeRHandPos.y > highest)
 				percent = 1.0f;
 			else if (m_realLifeRHandPos.y < lowest)
