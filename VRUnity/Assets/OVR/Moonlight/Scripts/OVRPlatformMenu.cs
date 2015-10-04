@@ -170,14 +170,15 @@ public class OVRPlatformMenu : MonoBehaviour
 	/// </summary>
 	void Awake()
 	{
+		/*
 		if (!OVRManager.isHmdPresent)
 		{
 			enabled = false;
 			return;
-		}
+		}*/
 		if ((cursorTimer != null) && (instantiatedCursorTimer == null)) 
 		{
-			//Debug.Log("Instantiating CursorTimer");
+			Debug.Log("Instantiating CursorTimer");
 			instantiatedCursorTimer = Instantiate(cursorTimer) as GameObject;
 			if (instantiatedCursorTimer != null)
 			{

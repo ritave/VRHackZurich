@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// http://wiki.unity3d.com/index.php?title=CreatePlane
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 

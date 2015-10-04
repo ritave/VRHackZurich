@@ -12,14 +12,24 @@ public class MyPlayerController : MonoBehaviour
 	public GameObject m_player;
 	public GameObject m_leftHand;
 	public GameObject m_rightHand;
+	public Transform m_forwardVec;
+
+	private Material m_lHandMaterial;
+	private Material m_rHandMaterial;
 
 	private OVRCameraRig m_cameraRig;
 	private PositionProvider m_positionProvider;
 
 	private Vector3 m_realLifeLHandPos;
+	private Vector4 m_lHandRot;
 	private Vector3 m_realLifeRHandPos;
+	private Vector4 m_rHandRot;
 	private Vector3 m_realLifeBodyPos;
-	
+
+	private bool m_rClosed;
+
+	static public System.Action<float> HandPercent;
+
 	private void Awake()
 	{
 		m_cameraRig = GetComponentInChildren<OVRCameraRig>();
@@ -38,21 +48,49 @@ public class MyPlayerController : MonoBehaviour
 		m_positionProvider.GetData(
 			ref m_realLifeLHandPos,
 			ref m_realLifeRHandPos,
+			ref m_rClosed,
 			ref m_realLifeBodyPos
 		);
 	}
 
 	private void UpdateBody()
 	{
-		m_player.transform.position = new Vector3(
-			m_realLifeBodyPos.x,
-			m_player.transform.position.y,
-			m_realLifeBodyPos.z	
-		);
+		m_player.transform.position = m_realLifeBodyPos;
 	}
 
 	private void UpdateHands()
 	{
+		m_rightHand.transform.position = m_realLifeRHandPos;
+		m_leftHand.transform.position = m_realLifeLHandPos;
 
+		var fromLTarget = new Vector3(
+			m_realLifeBodyPos.x,
+			m_realLifeLHandPos.y,
+			m_realLifeBodyPos.z
+		);
+
+		var fromRTarget = new Vector3(
+			m_realLifeBodyPos.x,
+			m_realLifeRHandPos.y,
+			m_realLifeBodyPos.z
+		);
+		
+		m_rightHand.transform.rotation = Quaternion.FromToRotation(Vector3.forward, m_realLifeRHandPos - m_realLifeBodyPos);
+		m_leftHand.transform.rotation = Quaternion.FromToRotation(Vector3.forward, m_realLifeLHandPos - m_realLifeBodyPos);
+		
+		if (m_rClosed)
+		{
+			float percent = 0.0f;
+			float lowest = m_realLifeBodyPos.y - 0.8f;
+			float highest = m_realLifeBodyPos.y;
+			if (m_realLifeRHandPos.y > highest)
+				percent = 1.0f;
+			else if (m_realLifeRHandPos.y < lowest)
+				percent = 0.0f;
+			else
+				percent = Mathf.Clamp01((m_realLifeRHandPos.y - lowest) / (highest - lowest));
+			
+			HandPercent(percent);
+		}
 	}
 }
