@@ -3820,6 +3820,11 @@ Transform:
   - {fileID: 95093777}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!23 &1709014190 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 2300000, guid: 83750e3d66b25fb4fb2120a7ebdf9dc9,
+    type: 3}
+  m_PrefabInternal: {fileID: 294689775}
 --- !u!1 &1737289644
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,6 +4356,7 @@ MonoBehaviour:
   m_leftHand: {fileID: 1853349245}
   m_rightHand: {fileID: 761266717}
   m_forwardVec: {fileID: 0}
+  m_rHandRenderer: {fileID: 1709014190}
   m_dragTop: {fileID: 1439942158}
   m_dragBottom: {fileID: 292527953}
 --- !u!114 &1894415429

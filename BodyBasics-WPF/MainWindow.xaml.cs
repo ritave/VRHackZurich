@@ -311,10 +311,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private void InitSocket()
         {
             udpClient = new UdpClient(7272);
-            udpClient.Connect("172.27.0.39", 7272);
+            udpClient.Connect("172.27.7.244", 7272);
 
             udpClient.AllowNatTraversal(true);
-            timer = new Timer(32.0);
+            timer = new Timer(32.0f);
             timer.Elapsed += (_, __) =>
             {
                 SendData();

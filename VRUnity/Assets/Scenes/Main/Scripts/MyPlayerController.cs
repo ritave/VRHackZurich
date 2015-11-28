@@ -13,6 +13,7 @@ public class MyPlayerController : MonoBehaviour
 	public GameObject m_leftHand;
 	public GameObject m_rightHand;
 	public Transform m_forwardVec;
+	public Renderer m_rHandRenderer;
 
 	public Transform m_dragTop;
 	public Transform m_dragBottom;
@@ -29,6 +30,8 @@ public class MyPlayerController : MonoBehaviour
 	private Vector4 m_rHandRot;
 	private Vector3 m_realLifeBodyPos;
 
+	private Color m_defaultRHandColor;
+
 	private bool m_rClosed;
 
 	static public System.Action<float> HandPercent;
@@ -37,6 +40,11 @@ public class MyPlayerController : MonoBehaviour
 	{
 		m_cameraRig = GetComponentInChildren<OVRCameraRig>();
 		m_positionProvider = GetComponent<PositionProvider>();
+	}
+
+	private void Start()
+	{
+		m_defaultRHandColor = m_rHandRenderer.material.color;
 	}
 
 	private void FixedUpdate()
@@ -83,6 +91,7 @@ public class MyPlayerController : MonoBehaviour
 		
 		if (m_rClosed)
 		{
+			m_rHandRenderer.material.color = Color.red;
 			float percent = 0.0f;
 			float lowest = m_dragBottom.position.y;
 			float highest = m_dragTop.position.y;
@@ -94,6 +103,9 @@ public class MyPlayerController : MonoBehaviour
 				percent = Mathf.Clamp01((m_realLifeRHandPos.y - lowest) / (highest - lowest));
 			
 			HandPercent(percent);
+		} else
+		{
+			m_rHandRenderer.material.color = m_defaultRHandColor;
 		}
 	}
 }
